@@ -2,6 +2,7 @@
   <library name="Maven: org.apache.derby:derby:10.13.1.1">
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/apache/derby/derby/10.13.1.1/derby-10.13.1.1.jar!/" />
+      <root url="jar://$USER_HOME$/jxl/jxl.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/org/apache/derby/derby/10.13.1.1/derby-10.13.1.1-javadoc.jar!/" />

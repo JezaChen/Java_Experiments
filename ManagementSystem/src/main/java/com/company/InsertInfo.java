@@ -1,6 +1,7 @@
 package com.company;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class InsertInfo {
@@ -10,6 +11,86 @@ public class InsertInfo {
     private static Scanner in = new Scanner(System.in);
 
     public InsertInfo() {
+    }
+
+    //插入单个记录
+    public static void insertInfo(String name, int id, int age) {
+        try {
+            Class.forName(driver);
+        } catch (java.lang.ClassNotFoundException e) {
+            System.out.println("载入驱动程序失败");
+        }
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = DriverManager.getConnection(connectionURL, "scut", "8888");
+            String insertQuery = "INSERT INTO StudentTable VALUES(?,?,?)";
+            stmt = conn.prepareStatement(insertQuery);
+
+            stmt.setInt(1, id);
+            stmt.setString(2, name);
+            stmt.setInt(3, age);
+
+            stmt.executeUpdate();
+
+
+        } catch (SQLException e) {
+            System.out.println("SQL操作异常！");
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    stmt = null;
+                }
+                if (conn != null) {
+                    conn.close();
+                    conn = null;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //批量插入数据
+    public static void insertInfos(ArrayList<String> name, ArrayList<Integer> id, ArrayList<Integer> age) {
+        try {
+            Class.forName(driver);
+        } catch (java.lang.ClassNotFoundException e) {
+            System.out.println("载入驱动程序失败");
+        }
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = DriverManager.getConnection(connectionURL, "scut", "8888");
+            String insertQuery = "INSERT INTO StudentTable VALUES(?,?,?)";
+            stmt = conn.prepareStatement(insertQuery);
+            for (int i = 0; i < id.size(); i++) {
+                stmt.setInt(1, id.get(i));
+                stmt.setString(2, name.get(i));
+                stmt.setInt(3, age.get(i));
+
+                stmt.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQL操作异常！");
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                    stmt = null;
+                }
+                if (conn != null) {
+                    conn.close();
+                    conn = null;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void main(String[] args) {
@@ -45,11 +126,6 @@ public class InsertInfo {
                 stmt.executeUpdate();
 
                 System.out.println("插入学生资料成功！");
-
-                /*try (ResultSet rs = stmt.executeQuery()) {
-                    while (rs.next())
-                        System.out.println(rs.getString(1) + ", " + rs.getString(2) + ", " + rs.getString(3));
-                }*/
             }
         } catch (SQLException e) {
             System.out.println("SQL操作异常！");
